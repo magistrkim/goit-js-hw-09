@@ -52,10 +52,19 @@ const handleSubmitBtnClick = event => {
   });
 };
 
+let warningDisplayed = false;
+
 const handleInputChange = () => {
   const { firstDelayValue, stepValue, amountValue } = getFormValues();
-  if (firstDelayValue === 0 && stepValue === 0 && amountValue === 0) {
+  if (firstDelayValue < 0 || stepValue < 0 || amountValue < 0) {
+    if (!warningDisplayed) {
+      createButtonEl.setAttribute('disabled', '');
+      Notify.warning('Please choose valid value!');
+      warningDisplayed = true;
+    }
+  } else {
     createButtonEl.removeAttribute('disabled');
+    warningDisplayed = false;
   }
 };
 
